@@ -5,6 +5,9 @@ import pytest
 import yaml
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions
 
 
 def load_data(path='data.yaml'):
@@ -33,6 +36,10 @@ class TestContacts:
                              data
                              )
     def test_add_contacts(self, data):
+
+        name = 'neal'
+        phone = '15622771111'
+
         self.driver.get('https://work.weixin.qq.com/wework_admin/frame#contacts')
         cookies = data
 
@@ -46,15 +53,15 @@ class TestContacts:
         element = self.driver.find_element_by_xpath(
             "//div[@class='ww_operationBar']//*[@class='qui_btn ww_btn js_add_member']")
         print("文本是", element.text)
-        self.driver.implicitly_wait(10)
+        WebDriverWait(self.driver, 10).until(expected_conditions.element_to_be_clickable(
+            (By.XPATH, "//div[@class='ww_operationBar']//*[@class='qui_btn ww_btn js_add_member']")))
         element.click()
-        self.driver.implicitly_wait(10)
-        self.driver.find_element_by_id('username').send_keys('neal')
+        self.driver.find_element_by_id('username').send_keys(name)
         self.driver.find_element_by_id('memberAdd_acctid').send_keys('nealChen')
-        self.driver.find_element_by_id('memberAdd_phone').send_keys('15622771111')
+        self.driver.find_element_by_id('memberAdd_phone').send_keys(phone)
         self.driver.find_element_by_name('sendInvite').click()
         self.driver.find_element_by_link_text("保存并继续添加").click()
-        assert self.assert_visible('neal') and self.assert_visible('15622771111')
+        assert self.assert_visible('%s' % name) and self.assert_visible('%s' % phone)
 
     @pytest.mark.skip
     def test_cookie(self):
