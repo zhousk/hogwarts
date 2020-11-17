@@ -20,6 +20,7 @@ class TestContacts:
     data = load_data()
 
     # 命令行指定端口打开命令：chrome - -remote - debugging - port = 9222
+    #复用浏览器是为了跳过登陆的过程，手动登陆，然后复用就行
     def setup(self):
         # option = Options()
         # option.debugger_address = '127.0.0.1:9222'
@@ -68,6 +69,7 @@ class TestContacts:
         cookies = self.driver.get_cookies()
         print(cookies)
 
+    # 验证添加成员成功
     def assert_visible(self, message):
         try:
             return self.driver.find_element_by_xpath("//*[contains(text(), '{}')]".format(message))
