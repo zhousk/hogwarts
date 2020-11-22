@@ -11,6 +11,6 @@ class TestContact:
         phonenum = "123234"
 
         addmemberpage = self.index.click_add_member()
-        addmemberpage.add_member(name, account, phonenum)
+        addmemberpage.edit_member(name, account, phonenum)
         result = addmemberpage.get_member(name)
         assert result
