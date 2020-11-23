@@ -1,0 +1,24 @@
+send_value:
+  - appium
+  - selenium
+
+steps:
+  - webdriver:
+      browser: chrome
+  - get: https://ceshiren.com/
+  - find_element:
+      by: id
+      locator: search-button
+      click: []
+  - find_element:
+      by: id
+      locator: search-term
+      send_keys: ${value}
+
+
+
+
+
+
+
+
